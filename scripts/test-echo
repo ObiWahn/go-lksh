@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "run $BASH_SOURCE"
+read foo
+echo "'$foo'"
