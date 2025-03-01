@@ -1,3 +1,5 @@
+github.com/bcmills/more v0.0.0-20220105151939-c9907ded6c5c h1:OP/BxM2t9PsBkdEFA3QtmuZIUOJkhLf1poc9HD7CwPw=
+github.com/bcmills/more v0.0.0-20220105151939-c9907ded6c5c/go.mod h1:J2M5xHKbGebeOWyu+4oF2gk/KnQ9ARgWELvKlSTcwWY=
 github.com/fatih/color v1.18.0 h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
 github.com/fatih/color v1.18.0/go.mod h1:4FelSpRwEGDpQ12mAdzqdOukCy4u8WUtOY6lkT/6HfU=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=

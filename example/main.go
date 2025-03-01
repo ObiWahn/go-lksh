@@ -10,8 +10,8 @@ import (
 
 func main() {
 	cfg := lksh.NewConfig()
-	cfg.Pipe = true
-	cfg.MaxBufferSize = lksh.MegaByte * 12
+	cfg.Pipe = false
+	cfg.MaxBufferSize = lksh.MegaByte * 1
 	//cfg.LookUpPath = false
 	cfg.AddEnvVar("foo", "bar")
 

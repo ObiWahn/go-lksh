@@ -11,13 +11,18 @@ package lksh
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
 	"slices"
 	"strings"
+
+	"github.com/bcmills/more/moreio"
 )
+
+var errLimitExceeded = errors.New("buffer limit exceeded")
 
 func execute(ctx context.Context, cfg *Config, path string, args []string) (int, *bytes.Buffer, error) {
 	// Handle environment variables
@@ -77,16 +82,19 @@ func execute(ctx context.Context, cfg *Config, path string, args []string) (int,
 	}()
 
 	var buf *bytes.Buffer
+	var limit io.Writer
 	if cfg.Pipe && cfg.MaxBufferSize <= 0 {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-	} else if !cfg.Pipe && cfg.MaxBufferSize > 0 {
+	} else if cfg.MaxBufferSize > 0 {
 		buf = &bytes.Buffer{}
-		cmd.Stdout = buf
-		cmd.Stderr = buf
+		limit = moreio.LimitWriter(buf, cfg.MaxBufferSize, errLimitExceeded)
+		cmd.Stdout = limit
+		cmd.Stderr = limit
 	} else if cfg.Pipe && cfg.MaxBufferSize > 0 {
 		buf = &bytes.Buffer{}
-		mw := io.MultiWriter(os.Stdout, buf)
+		limit = moreio.LimitWriter(buf, cfg.MaxBufferSize, errLimitExceeded)
+		mw := io.MultiWriter(os.Stdout, limit)
 		cmd.Stdout = mw
 		cmd.Stderr = mw
 	}
